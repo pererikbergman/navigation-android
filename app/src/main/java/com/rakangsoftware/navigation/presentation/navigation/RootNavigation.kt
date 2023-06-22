@@ -22,7 +22,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rakangsoftware.navigation.presentation.features.orders.OrdersScreenView
+import com.rakangsoftware.navigation.presentation.features.order.OrdersScreenView
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
 sealed class RootScreen(val route: String, val icon: ImageVector) {
