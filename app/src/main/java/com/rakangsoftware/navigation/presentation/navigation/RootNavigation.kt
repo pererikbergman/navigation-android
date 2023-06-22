@@ -6,6 +6,8 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Person
@@ -21,8 +23,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.rakangsoftware.navigation.presentation.features.orders.OrdersScreenView
+import com.rakangsoftware.navigation.presentation.features.order.list.OrderListScreenView
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
 sealed class RootScreen(val route: String, val icon: ImageVector) {
@@ -38,10 +41,24 @@ sealed class RootScreen(val route: String, val icon: ImageVector) {
 fun RootNavigation() {
     val navController = rememberNavController()
     var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Orders) }
-
     val mainScreens = RootScreen.getAll()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
 
     Scaffold(
+        topBar = {
+            when (currentRoute) {
+                RootScreen.Orders.route -> TopAppBar(
+                    backgroundColor = Color(0xFF162A3D),
+                    title = { Text("Order List", color = Color.White) }
+                )
+
+                RootScreen.Profile.route -> TopAppBar(
+                    backgroundColor = Color(0xFF162A3D),
+                    title = { Text("Profile", color = Color.White) }
+                )
+            }
+        },
         content = { paddingValues ->
             NavHost(
                 navController = navController, startDestination = RootScreen.Orders.route,
@@ -70,7 +87,7 @@ private fun NavGraphBuilder.addOrdersScreen(
     composable(
         route = RootScreen.Orders.route,
     ) {
-        OrdersScreenView(modifier)
+        OrderListScreenView(modifier)
     }
 }
 
