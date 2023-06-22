@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.rakangsoftware.navigation.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
@@ -22,7 +27,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rakangsoftware.navigation.presentation.features.orders.OrdersScreenView
+import com.rakangsoftware.navigation.presentation.features.order.list.OrderListScreenView
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
 sealed class RootScreen(val route: String, val icon: ImageVector) {
@@ -34,17 +39,22 @@ sealed class RootScreen(val route: String, val icon: ImageVector) {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
     var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Orders) }
-
     val mainScreens = RootScreen.getAll()
 
     Scaffold(
         content = { paddingValues ->
             NavHost(
-                navController = navController, startDestination = RootScreen.Orders.route,
+                navController = navController,
+                startDestination = RootScreen.Orders.route,
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popEnterTransition = { EnterTransition.None },
+                popExitTransition = { ExitTransition.None },
             ) {
                 addOrdersScreen(navController, modifier = Modifier.padding(paddingValues))
                 addProfileScreen(navController, modifier = Modifier.padding(paddingValues))
@@ -70,7 +80,7 @@ private fun NavGraphBuilder.addOrdersScreen(
     composable(
         route = RootScreen.Orders.route,
     ) {
-        OrdersScreenView(modifier)
+        OrderListScreenView(modifier)
     }
 }
 

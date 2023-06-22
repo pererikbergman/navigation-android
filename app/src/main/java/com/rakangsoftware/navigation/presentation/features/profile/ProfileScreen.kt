@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.rakangsoftware.navigation.presentation.ui.theme.NavigationTheme
 
 @Composable
-fun ProfileScreenView( modifier: Modifier = Modifier) {
+fun ProfileScreenView(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             TopAppBar(
