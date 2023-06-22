@@ -22,31 +22,30 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rakangsoftware.navigation.presentation.features.orders.OrdersScreenView
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
 sealed class RootScreen(val route: String, val icon: ImageVector) {
-    object Orders : RootScreen("orders", Icons.Outlined.List)
+    object Order : RootScreen("ordernav", Icons.Outlined.List)
     object Profile : RootScreen("profile", Icons.Outlined.Person)
 
     companion object {
-        fun getAll() = listOf(Orders, Profile)
+        fun getAll() = listOf(Order, Profile)
     }
 }
 
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
-    var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Orders) }
+    var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Order) }
 
     val mainScreens = RootScreen.getAll()
 
     Scaffold(
         content = { paddingValues ->
             NavHost(
-                navController = navController, startDestination = RootScreen.Orders.route,
+                navController = navController, startDestination = RootScreen.Order.route,
             ) {
-                addOrdersScreen(navController, modifier = Modifier.padding(paddingValues))
+                addOrderNavGraphScreen(navController, modifier = Modifier.padding(paddingValues))
                 addProfileScreen(navController, modifier = Modifier.padding(paddingValues))
             }
         },
@@ -63,14 +62,14 @@ fun RootNavigation() {
     )
 }
 
-private fun NavGraphBuilder.addOrdersScreen(
+private fun NavGraphBuilder.addOrderNavGraphScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
     composable(
-        route = RootScreen.Orders.route,
+        route = RootScreen.Order.route,
     ) {
-        OrdersScreenView(modifier)
+        OrderNavigation(modifier)
     }
 }
 

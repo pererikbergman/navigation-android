@@ -1,6 +1,7 @@
-package com.rakangsoftware.navigation.presentation.features.orders
+package com.rakangsoftware.navigation.presentation.features.order.list
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -15,12 +16,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.rakangsoftware.navigation.presentation.ui.theme.NavigationTheme
 
 @Composable
-fun OrdersScreenView( modifier: Modifier = Modifier) {
+fun OrderListScreenView(onOrderTapped: (orderId: Int) -> Unit, modifier: Modifier = Modifier) {
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 backgroundColor = Color(0xFF162A3D),
-                title = { Text("Orders", color = Color.White) }
+                title = { Text("Order List", color = Color.White) }
             )
         }
     ) { paddingValues ->
@@ -28,11 +30,20 @@ fun OrdersScreenView( modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = "Order Screen"
-            )
+            Column {
+                Button(onClick = { onOrderTapped(1) }) {
+                    Text(
+                        text = "Order 1"
+                    )
+                }
+                Button(onClick = { onOrderTapped(2) }) {
+                    Text(
+                        text = "Order 2"
+                    )
+                }
+            }
         }
     }
 }
@@ -41,6 +52,8 @@ fun OrdersScreenView( modifier: Modifier = Modifier) {
 @Composable
 fun OrdersScreenViewPreview() {
     NavigationTheme {
-        OrdersScreenView()
+        OrderListScreenView({
+
+        })
     }
 }
