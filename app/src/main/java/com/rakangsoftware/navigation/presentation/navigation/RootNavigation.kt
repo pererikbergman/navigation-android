@@ -22,12 +22,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rakangsoftware.navigation.presentation.features.orders.OrdersScreenView
+import androidx.navigation.navDeepLink
+import com.rakangsoftware.navigation.presentation.features.order.list.OrderListScreenView
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
-sealed class RootScreen(val route: String, val icon: ImageVector) {
-    object Orders : RootScreen("orders", Icons.Outlined.List)
-    object Profile : RootScreen("profile", Icons.Outlined.Person)
+sealed class RootScreen(val route: String, val deeplink: String, val icon: ImageVector) {
+    object Orders : RootScreen("orders", deeplink = "https://navigation.rakangsoftware.com/orders/", Icons.Outlined.List)
+    object Profile : RootScreen("profile", deeplink = "https://navigation.rakangsoftware.com/profile/", Icons.Outlined.Person)
 
     companion object {
         fun getAll() = listOf(Orders, Profile)
@@ -69,8 +70,11 @@ private fun NavGraphBuilder.addOrdersScreen(
 ) {
     composable(
         route = RootScreen.Orders.route,
+        deepLinks = listOf(
+            navDeepLink { uriPattern = RootScreen.Orders.deeplink }
+        ),
     ) {
-        OrdersScreenView(modifier)
+        OrderListScreenView(modifier)
     }
 }
 
@@ -80,6 +84,9 @@ private fun NavGraphBuilder.addProfileScreen(
 ) {
     composable(
         route = RootScreen.Profile.route,
+        deepLinks = listOf(
+            navDeepLink { uriPattern = RootScreen.Profile.deeplink }
+        ),
     ) {
         ProfileScreenView(modifier)
     }
