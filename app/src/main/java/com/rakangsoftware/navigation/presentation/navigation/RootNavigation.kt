@@ -22,11 +22,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.rakangsoftware.navigation.presentation.features.profile.ProfileScreenView
 
-sealed class RootScreen(val route: String, val icon: ImageVector) {
-    object Order : RootScreen("ordernav", Icons.Outlined.List)
-    object Profile : RootScreen("profile", Icons.Outlined.Person)
+sealed class RootScreen(val route: String, val deeplink: String, val icon: ImageVector) {
+    object Order : RootScreen(
+        route = "order",
+        deeplink = "https://navigation.rakangsoftware.com/order",
+        icon = Icons.Outlined.List
+    )
+
+    object Profile : RootScreen(
+        route = "profile",
+        deeplink = "https://navigation.rakangsoftware.com/profile",
+        icon = Icons.Outlined.Person
+    )
 
     companion object {
         fun getAll() = listOf(Order, Profile)
@@ -36,7 +46,7 @@ sealed class RootScreen(val route: String, val icon: ImageVector) {
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
-    var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Order) }
+    var selectedScreen by remember { mutableStateOf<RootScreen>(RootScreen.Profile) }
 
     val mainScreens = RootScreen.getAll()
 
@@ -45,8 +55,8 @@ fun RootNavigation() {
             NavHost(
                 navController = navController, startDestination = RootScreen.Order.route,
             ) {
-                addOrderNavGraphScreen(navController, modifier = Modifier.padding(paddingValues))
-                addProfileScreen(navController, modifier = Modifier.padding(paddingValues))
+                addOrderNavGraphScreen( modifier = Modifier.padding(paddingValues))
+                addProfileScreen(modifier = Modifier.padding(paddingValues))
             }
         },
         bottomBar = {
@@ -63,22 +73,23 @@ fun RootNavigation() {
 }
 
 private fun NavGraphBuilder.addOrderNavGraphScreen(
-    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     composable(
-        route = RootScreen.Order.route,
+        route = RootScreen.Order.route
     ) {
         OrderNavigation(modifier)
     }
 }
 
 private fun NavGraphBuilder.addProfileScreen(
-    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     composable(
         route = RootScreen.Profile.route,
+        deepLinks = listOf(
+            navDeepLink { uriPattern = RootScreen.Profile.deeplink }
+        ),
     ) {
         ProfileScreenView(modifier)
     }
