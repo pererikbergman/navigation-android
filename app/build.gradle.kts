@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.rakangsoftware.navigation"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.rakangsoftware.navigation"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -67,6 +67,6 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    implementation("androidx.compose.material:material:1.4.3")
-    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.navigation.compose)
 }
