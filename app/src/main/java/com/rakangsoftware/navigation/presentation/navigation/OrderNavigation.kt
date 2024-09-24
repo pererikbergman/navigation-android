@@ -25,13 +25,6 @@ sealed class OrderScreen(val route: String, val deeplink: String) {
         deeplink = "https://navigation.rakangsoftware.com/order/"
     )
 
-    object Detail2 : OrderScreen(
-        route = "order/{orderId}",
-        deeplink = "https://navigation.rakangsoftware.com/order?id={orderId}"
-    ) {
-        fun getRoute(orderId: Int) = "order/$orderId"
-    }
-
     object Detail : OrderScreen(
         route = "order/{orderId}",
         deeplink = "https://navigation.rakangsoftware.com/order/{orderId}"
